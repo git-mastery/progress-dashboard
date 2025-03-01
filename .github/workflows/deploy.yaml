@@ -12,10 +12,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: "yarn"
       - name: Setup dependencies
         run: |
           NODE_ENV=production yarn
-          cache: "yarn"
       - name: Build project
         run: |
           NODE_ENV=production yarn build
