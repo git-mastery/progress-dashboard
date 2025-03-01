@@ -66,10 +66,8 @@ function Dashboard() {
     return sortedGroups
   }, [problemSets, isProblemSetsLoading, parsedUserProgress])
 
-  console.log(problemSetGroups)
-
   return (
-    <div className="w-[40%] my-28 mx-auto">
+    <div className="lg:w-[40%] my-28 mx-auto md:w-[60%] w-[80%]">
       <h3 className="text-2xl font-bold mb-4">Git Mastery Progress Dashboard</h3>
       <div className="mb-6">
         <Link to="/" className="text-gray-500 italic mb-2">← Back to search</Link>
