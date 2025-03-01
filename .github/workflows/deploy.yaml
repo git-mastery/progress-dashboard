@@ -1,3 +1,5 @@
+name: Deploy progress dashboard to Github Pages
+
 on:
   workflow_dispatch:
   push:
@@ -16,7 +18,7 @@ jobs:
           cache: "yarn"
       - name: Setup dependencies
         run: |
-          NODE_ENV=production yarn
+          yarn
       - name: Build project
         run: |
           NODE_ENV=production yarn build
