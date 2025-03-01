@@ -23,6 +23,11 @@ jobs:
       - name: Build project
         run: |
           NODE_ENV=production yarn build
+      - name: List build
+        run: |
+          ls
+          ls dist/
+          find . -name "*.lock"
       - name: Upload production artifact
         uses: actions/upload-artifact@v4
         with:
