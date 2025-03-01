@@ -1,0 +1,31 @@
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch latest repository
+        uses: actions/checkout@v4
+      - name: Using Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Setup dependencies
+        run: |
+          NODE_ENV=production yarn
+          cache: "yarn"
+      - name: Build project
+        run: |
+          NODE_ENV=production yarn build
+      - name: Upload production artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-pages
+          path: |
+            dist
+      - name: Publishing production artifact
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages
