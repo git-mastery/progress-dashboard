@@ -1,4 +1,7 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
+import { HiOutlineExternalLink } from "react-icons/hi";
+import { IoArrowBack } from "react-icons/io5";
+import { MdOutlineRefresh } from "react-icons/md";
 import { Link, useParams } from "react-router";
 import { ProblemSet, useGetProblemSetsQuery } from "./api/queries/get_problem_sets";
 import { useGetUserQuery } from "./api/queries/get_user";
@@ -18,6 +21,8 @@ function Dashboard() {
   const {
     data: userProgress,
     isLoading: isUserProgressLoading,
+    isRefetchError: isUserProgressRefetching,
+    refetch: refetchUserProgress,
   } = useGetUserProgressQuery(user?.id);
 
   const parsedUserProgress = useMemo(() => {
@@ -66,17 +71,29 @@ function Dashboard() {
     return sortedGroups
   }, [problemSets, isProblemSetsLoading, parsedUserProgress])
 
+  const refreshUserProgress = useCallback(async () => {
+    await refetchUserProgress()
+  }, [refetchUserProgress])
+
   return (
     <div className="lg:w-[40%] my-16 mx-auto md:w-[60%] w-[80%]">
       <h3 className="text-2xl font-bold mb-4">Git Mastery Progress Dashboard</h3>
       <div className="mb-6">
-        <Link to="/" className="text-gray-500 italic mb-2">← Back to search</Link>
-        <h1 className="text-4xl font-bold mb-4">@{username}</h1>
+        <Link to="/" className="text-gray-500 italic mb-2 flex flex-row gap-2 items-center"><IoArrowBack className="inline-block" /> Back to search</Link>
+        <div className="flex flex-row justify-between items-center mb-4">
+          <div className="flex flex-row gap-2 items-center">
+            <h1 className="text-4xl font-bold">@{username}</h1>
+            <a target="_blank" className="hover:cursor-pointer text-gray-500" href={`https://github.com/${username}`}>
+              <HiOutlineExternalLink size={24} />
+            </a>
+          </div>
+          <button type="button" className="hover:cursor-pointer" onClick={refreshUserProgress}><MdOutlineRefresh size={24} color="text-gray-500" /></button>
+        </div>
         <p className="text-gray-700 font-semibold">Find your progress for the various Git Mastery problem sets.</p>
         <p className="text-gray-700">To view all problem sets, visit the <a className="text-blue-800 underline" href="https://github.com/git-mastery/problems-directory">problems directory</a>.</p>
       </div>
       <div>
-        {(isUserLoading || isUserProgressLoading || isProblemSetsLoading) ? (
+        {(isUserLoading || isUserProgressLoading || isUserProgressRefetching || isProblemSetsLoading) ? (
           <div className="flex justify-center">
             <Spinner />
           </div>
