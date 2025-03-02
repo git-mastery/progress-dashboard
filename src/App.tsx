@@ -27,7 +27,7 @@ function App() {
         <div className="flex items-center justify-center p-4 border-r border-r-gray-700">
           <span className="font-bold">@</span>
         </div>
-        <input onChange={usernameInput} className="font-semibold w-full px-4 focus:outline-none" placeholder="Your Github username" type="text" />
+        <input onChange={usernameInput} autoFocus className="font-semibold w-full px-4 focus:outline-none" placeholder="Your Github username" type="text" />
       </div>
       <div className="text-center mt-4">
         <button type="button" onClick={searchUser} disabled={isSearchDisabled} className="enabled:hover:cursor-pointer enabled:hover:bg-gray-600 enabled:hover:text-white transition border-1 rounded-sm px-4 py-2 font-semibold disabled:border-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed">View Progress →</button>
