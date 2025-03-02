@@ -67,7 +67,7 @@ function Dashboard() {
   }, [problemSets, isProblemSetsLoading, parsedUserProgress])
 
   return (
-    <div className="lg:w-[40%] my-28 mx-auto md:w-[60%] w-[80%]">
+    <div className="lg:w-[40%] my-16 mx-auto md:w-[60%] w-[80%]">
       <h3 className="text-2xl font-bold mb-4">Git Mastery Progress Dashboard</h3>
       <div className="mb-6">
         <Link to="/" className="text-gray-500 italic mb-2">← Back to search</Link>
