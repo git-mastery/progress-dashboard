@@ -3,7 +3,7 @@ import { HiOutlineExternalLink } from "react-icons/hi";
 import { IoArrowBack } from "react-icons/io5";
 import { MdOutlineRefresh } from "react-icons/md";
 import { Link, useParams } from "react-router";
-import { ProblemSet, useGetProblemSetsQuery } from "./api/queries/get_problem_sets";
+import { Exercise, useGetExercisesQuery } from "./api/queries/get_exercises";
 import { useGetUserQuery } from "./api/queries/get_user";
 import { useGetUserProgressQuery } from "./api/queries/get_user_progress";
 import Spinner from "./components/Spinner";
@@ -11,7 +11,7 @@ import Spinner from "./components/Spinner";
 type UserProblemSetStatus = string;
 
 function Dashboard() {
-  let { username } = useParams();
+  const { username } = useParams();
 
   const {
     data: user,
@@ -46,22 +46,22 @@ function Dashboard() {
   const {
     data: problemSets,
     isLoading: isProblemSetsLoading,
-  } = useGetProblemSetsQuery();
+  } = useGetExercisesQuery();
 
   const problemSetGroups = useMemo(() => {
     if (isProblemSetsLoading || problemSets == null) {
-      return new Map<string, ProblemSet[]>();
+      return new Map<string, Exercise[]>();
     }
 
-    const repoGroups = new Map<string, ProblemSet[]>();
+    const repoGroups = new Map<string, Exercise[]>();
     for (const repo of problemSets) {
-      for (const topic of repo.topics) {
-        if (topic !== "problem-set") {
-          if (parsedUserProgress.has(repo.name)) {
-            if (!repoGroups.has(topic)) {
-              repoGroups.set(topic, [])
+      for (const tag of repo.tags) {
+        if (tag !== "problem-set") {
+          if (parsedUserProgress.has(repo.exercise_name)) {
+            if (!repoGroups.has(tag)) {
+              repoGroups.set(tag, [])
             }
-            repoGroups.get(topic)!.push(repo)
+            repoGroups.get(tag)!.push(repo)
           }
         }
       }
@@ -124,11 +124,11 @@ function Dashboard() {
                         </thead>
                         <tbody>
                           {value
-                            .filter(problemSet => parsedUserProgress.has(problemSet.name))
-                            .map(problemSet => (
-                              <tr key={problemSet.id}>
-                                <td className="border border-gray-300 px-4 py-2 text-left"><a target="_blank" href={problemSet.html_url}><code className="underline text-blue-800">{problemSet.name}</code></a></td>
-                                <td className="border border-gray-300 px-4 py-2 text-left">{parsedUserProgress.get(problemSet.name)}</td>
+                            .filter(exercise => parsedUserProgress.has(exercise.exercise_name))
+                            .map((exercise, idx) => (
+                              <tr key={idx}>
+                                <td className="border border-gray-300 px-4 py-2 text-left"><a target="_blank" href={`https://git-mastery.github.io/exercises/${exercise.exercise_name.replace("_", "-")}`}><code className="underline text-blue-800">{exercise.exercise_name}</code></a></td>
+                                <td className="border border-gray-300 px-4 py-2 text-left">{parsedUserProgress.get(exercise.exercise_name)}</td>
                               </tr>
                             ))}
                         </tbody>

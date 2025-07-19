@@ -8,7 +8,7 @@ export interface UserProgress {
 
 export const getUserProgress = async (userId: number) => {
   try {
-    const result = await axios.get<UserProgress[]>(`https://raw.githubusercontent.com/git-mastery/progress-tracker/refs/heads/main/progress/${userId}.json`);
+    const result = await axios.get<UserProgress[]>(`https://raw.githubusercontent.com/git-mastery/progress/refs/heads/tracker/students/${userId}.json`);
     return result.data;
   } catch {
     return null;
