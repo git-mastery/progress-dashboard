@@ -6,6 +6,7 @@ import { Link, useParams } from "react-router";
 import { Exercise, useGetExercisesQuery } from "./api/queries/get_exercises";
 import { useGetUserQuery } from "./api/queries/get_user";
 import { useGetUserProgressQuery } from "./api/queries/get_user_progress";
+import { useGetUserUpdateTimeQuery } from "./api/queries/get_user_update_time";
 import Spinner from "./components/Spinner";
 
 type UserProblemSetStatus = string;
@@ -73,6 +74,32 @@ function Dashboard() {
     await refetchUserProgress()
   }, [refetchUserProgress])
 
+  const {
+    data: latestActionRun
+  } = useGetUserUpdateTimeQuery(user?.id)
+
+  const formatTimeWithTimezone = useCallback((dateObj: Date) => {
+    const formatter = new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    });
+
+    return formatter.format(dateObj)
+  }, [])
+
+  const expectedNextUpdateTime = useMemo(() => {
+    if (latestActionRun == null) {
+      return null
+    }
+    const expectedTime = new Date(latestActionRun.getTime() + 30 * 60 * 1000)
+    return expectedTime
+  }, [latestActionRun])
+
   return (
     <div className="lg:w-[40%] my-16 mx-auto md:w-[60%] w-[80%]">
       <h3 className="text-2xl font-bold mb-4">Git Mastery Progress Dashboard</h3>
@@ -89,6 +116,12 @@ function Dashboard() {
         </div>
         <p className="text-gray-700 font-semibold">Find your progress for the various Git Mastery exercises.</p>
         <p className="text-gray-700">To view all exercises, visit the <a className="text-blue-800 underline" href="https://git-mastery.github.io/exercises">exercises directory</a>.</p>
+        {latestActionRun != null && expectedNextUpdateTime != null && (
+          <p className="mt-2 italic">Last updated on {formatTimeWithTimezone(latestActionRun)}.
+            <br />Next update around {formatTimeWithTimezone(expectedNextUpdateTime)}
+            <br />If there is a discrepancy, open a ticket with the Git-Mastery team <a className="text-blue-800 underline" href="https://github.com/git-mastery/git-mastery">here</a>
+          </p>
+        )}
       </div>
       <div>
         {(isUserLoading || isUserProgressLoading || isUserProgressRefetching || isProblemSetsLoading) ? (
