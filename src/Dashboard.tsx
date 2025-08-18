@@ -35,7 +35,7 @@ function Dashboard() {
     for (const up of userProgress) {
       if (!progress.has(up.exercise_name)) {
         progress.set(up.exercise_name, up.status)
-      } else if (progress.get(up.exercise_name) !== "SUCCESSFUL" && up.status === "SUCCESSFUL") {
+      } else if (progress.get(up.exercise_name) !== "SUCCESSFUL" && up.status === "Completed") {
         // Take any success
         progress.set(up.exercise_name, up.status)
       }
