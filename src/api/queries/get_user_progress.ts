@@ -6,20 +6,21 @@ export interface UserProgress {
   status: string;
 }
 
-export const getUserProgress = async (userId: number) => {
+export const getUserProgress = async (username: string) => {
   try {
-    const result = await axios.get<UserProgress[]>(`https://raw.githubusercontent.com/git-mastery/progress/refs/heads/tracker/students/${userId}.json`);
+    const encodedUsername = encodeURIComponent(username);
+    const result = await axios.get<UserProgress[]>(`https://raw.githubusercontent.com/${encodedUsername}/${encodedUsername}-gitmastery-progress/refs/heads/main/progress.json`);
     return result.data;
   } catch {
     return null;
   }
 }
 
-export const useGetUserProgressQuery = (userId: number | undefined) => {
+export const useGetUserProgressQuery = (username: string | undefined) => {
   return useQuery<UserProgress[] | null>({
-    queryKey: ["get-user-progress", userId],
-    queryFn: () => getUserProgress(userId!),
-    enabled: userId != null,
+    queryKey: ["get-user-progress", username],
+    queryFn: () => getUserProgress(username!),
+    enabled: !!username,
   });
 }
 
