@@ -89,6 +89,9 @@ function Dashboard() {
         </div>
         <p className="text-gray-700 font-semibold">Find your progress for the various Git Mastery exercises.</p>
         <p className="text-gray-700">To view all exercises, visit the <a className="text-blue-800 underline" href="https://git-mastery.github.io/exercises-directory">exercises directory</a>.</p>
+        <p className="mt-2 italic">
+            If there is a discrepancy, open a ticket with the Git-Mastery team <a className="text-blue-800 underline" href="https://github.com/git-mastery/git-mastery">here</a>
+          </p>
       </div>
       <div>
         {(isUserLoading || isUserProgressLoading || isUserProgressRefetching || isProblemSetsLoading) ? (
