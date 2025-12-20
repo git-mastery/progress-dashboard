@@ -140,7 +140,7 @@ function Dashboard() {
                             .filter(exercise => parsedUserProgress.has(exercise.exercise_name))
                             .map((exercise, idx) => (
                               <tr key={idx}>
-                                <td className="border border-gray-300 px-4 py-2 text-left"><a target="_blank" href={`https://git-mastery.github.io/exercises/${exercise.exercise_name.replace("-", "_")}`}><code className="underline text-blue-800">{exercise.exercise_name}</code></a></td>
+                                <td className="border border-gray-300 px-4 py-2 text-left"><a target="_blank" href={`https://git-mastery.github.io/exercises-directory#exercise-${exercise.exercise_name}`}><code className="underline text-blue-800">{exercise.exercise_name}</code></a></td>
                                 <td className="border border-gray-300 px-4 py-2 text-left">{parsedUserProgress.get(exercise.exercise_name)}</td>
                               </tr>
                             ))}
