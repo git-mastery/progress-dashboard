@@ -88,7 +88,7 @@ function Dashboard() {
           <button type="button" className="hover:cursor-pointer" onClick={refreshUserProgress}><MdOutlineRefresh size={24} color="text-gray-500" /></button>
         </div>
         <p className="text-gray-700 font-semibold">Find your progress for the various Git Mastery exercises.</p>
-        <p className="text-gray-700">To view all exercises, visit the <a className="text-blue-800 underline" href="https://git-mastery.github.io/exercises">exercises directory</a>.</p>
+        <p className="text-gray-700">To view all exercises, visit the <a className="text-blue-800 underline" href="https://git-mastery.github.io/exercises-directory">exercises directory</a>.</p>
       </div>
       <div>
         {(isUserLoading || isUserProgressLoading || isUserProgressRefetching || isProblemSetsLoading) ? (
@@ -117,7 +117,7 @@ function Dashboard() {
             exerciseGroups.size === 0 ? (
               <div className="text-center">
                 <p className="mb-4">You have not completed any exercises yet</p>
-                <a href="https://git-mastery.github.io/exercises" target="_blank" className="hover:cursor-pointer border-1 border-blue-800 bg-blue-800 text-white rounded-sm px-4 py-2 font-semibold">Go to exercises directory ↗</a>
+                <a href="https://git-mastery.github.io/exercises-directory" target="_blank" className="hover:cursor-pointer border-1 border-blue-800 bg-blue-800 text-white rounded-sm px-4 py-2 font-semibold">Go to exercises directory ↗</a>
               </div>
             ) : (
               Array.from(exerciseGroups)
