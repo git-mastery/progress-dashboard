@@ -19,7 +19,7 @@ export const useGetUserQuery = (username: string | undefined) => {
   return useQuery<User | null>({
     queryKey: ["get-user", username],
     queryFn: () => getUser(username!),
-    enabled: !!username,
+    enabled: username != undefined,
   })
 }
 

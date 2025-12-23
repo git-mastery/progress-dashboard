@@ -94,6 +94,7 @@ function Dashboard() {
           </p>
       </div>
       <div>
+        {/* TODO: Refactor into components for more modula design */}
         {(isUserLoading || isUserProgressLoading || isUserProgressRefetching || isProblemSetsLoading) ? (
           <div className="flex justify-center">
             <Spinner />

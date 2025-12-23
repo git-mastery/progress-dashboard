@@ -20,7 +20,7 @@ export const useGetUserProgressQuery = (username: string | undefined) => {
   return useQuery<UserProgress[] | null>({
     queryKey: ["get-user-progress", username],
     queryFn: () => getUserProgress(username!),
-    enabled: !!username,
+    enabled: username != undefined,
   });
 }
 
