@@ -107,8 +107,11 @@ function Dashboard() {
             </div>
           ) : userProgress == null ? (
           <div className="text-center">
-            <p className="mb-4 text-red-700">
-              No progress repository found for <strong>{username}</strong>. Ensure that you have enabled remote progress tracking in the Git-Mastery app.
+            <p className="mb-2 text-red-700">
+              No progress repository found for <strong>{username}</strong>.
+            </p>
+            <p className="mb-6 text-red-700">
+              Ensure that you have enabled remote progress tracking using <code className="bg-gray-100 px-2 py-1">gitmastery progress sync on</code> in the Git-Mastery app.
             </p>
             <Link
               to="/"

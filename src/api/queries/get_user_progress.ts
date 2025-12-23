@@ -9,6 +9,7 @@ export interface UserProgress {
 export const getUserProgress = async (username: string) => {
   try {
     const encodedUsername = encodeURIComponent(username);
+    console.log(encodedUsername);
     const result = await axios.get<UserProgress[]>(`https://raw.githubusercontent.com/${encodedUsername}/${encodedUsername}-gitmastery-progress/refs/heads/main/progress.json`);
     return result.data;
   } catch {
@@ -20,7 +21,7 @@ export const useGetUserProgressQuery = (username: string | undefined) => {
   return useQuery<UserProgress[] | null>({
     queryKey: ["get-user-progress", username],
     queryFn: () => getUserProgress(username!),
-    enabled: username != undefined,
+    enabled: username != null,
   });
 }
 
