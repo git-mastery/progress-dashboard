@@ -6,7 +6,6 @@ import { Link, useParams } from "react-router";
 import { Exercise, useGetExercisesQuery } from "./api/queries/get_exercises";
 import { useGetUserQuery } from "./api/queries/get_user";
 import { useGetUserProgressQuery } from "./api/queries/get_user_progress";
-import { useGetUserUpdateTimeQuery } from "./api/queries/get_user_update_time";
 import Spinner from "./components/Spinner";
 
 type UserProblemSetStatus = string;
@@ -24,7 +23,7 @@ function Dashboard() {
     isLoading: isUserProgressLoading,
     isRefetchError: isUserProgressRefetching,
     refetch: refetchUserProgress,
-  } = useGetUserProgressQuery(user?.id);
+  } = useGetUserProgressQuery(user?.login);
 
   const parsedUserProgress = useMemo(() => {
     if (isUserProgressLoading || userProgress == null) {
@@ -74,32 +73,6 @@ function Dashboard() {
     await refetchUserProgress()
   }, [refetchUserProgress])
 
-  const {
-    data: latestActionRun
-  } = useGetUserUpdateTimeQuery(user?.id)
-
-  const formatTimeWithTimezone = useCallback((dateObj: Date) => {
-    const formatter = new Intl.DateTimeFormat('en-GB', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-    });
-
-    return formatter.format(dateObj)
-  }, [])
-
-  const expectedNextUpdateTime = useMemo(() => {
-    if (latestActionRun == null) {
-      return null
-    }
-    const expectedTime = new Date(latestActionRun.getTime() + 30 * 60 * 1000)
-    return expectedTime
-  }, [latestActionRun])
-
   return (
     <div className="lg:w-[40%] my-16 mx-auto md:w-[60%] w-[80%]">
       <h3 className="text-2xl font-bold mb-4">Git Mastery Progress Dashboard</h3>
@@ -115,15 +88,13 @@ function Dashboard() {
           <button type="button" className="hover:cursor-pointer" onClick={refreshUserProgress}><MdOutlineRefresh size={24} color="text-gray-500" /></button>
         </div>
         <p className="text-gray-700 font-semibold">Find your progress for the various Git Mastery exercises.</p>
-        <p className="text-gray-700">To view all exercises, visit the <a className="text-blue-800 underline" href="https://git-mastery.github.io/exercises">exercises directory</a>.</p>
-        {latestActionRun != null && expectedNextUpdateTime != null && (
-          <p className="mt-2 italic">Last updated on {formatTimeWithTimezone(latestActionRun)}.
-            <br />Next update around {formatTimeWithTimezone(expectedNextUpdateTime)}
-            <br />If there is a discrepancy, open a ticket with the Git-Mastery team <a className="text-blue-800 underline" href="https://github.com/git-mastery/git-mastery">here</a>
+        <p className="text-gray-700">To view all exercises, visit the <a className="text-blue-800 underline" href="https://git-mastery.github.io/exercises-directory">exercises directory</a>.</p>
+        <p className="mt-2 italic">
+            If there is a discrepancy, open a ticket with the Git-Mastery team <a className="text-blue-800 underline" href="https://github.com/git-mastery/git-mastery">here</a>
           </p>
-        )}
       </div>
       <div>
+        {/* TODO: Refactor into components for more modula design */}
         {(isUserLoading || isUserProgressLoading || isUserProgressRefetching || isProblemSetsLoading) ? (
           <div className="flex justify-center">
             <Spinner />
@@ -134,11 +105,26 @@ function Dashboard() {
               <p className="mb-4 text-red-700">User <strong>{username}</strong> does not exist</p>
               <Link to="/" className="hover:cursor-pointer border-1 border-red-700 bg-red-700 text-white rounded-sm px-4 py-2 font-semibold">← Return to search</Link>
             </div>
-          ) : (
+          ) : userProgress == null ? (
+          <div className="text-center">
+            <p className="mb-2 text-red-700">
+              No progress repository found for <strong>{username}</strong>.
+            </p>
+            <p className="mb-6 text-red-700">
+              Ensure that you have enabled remote progress tracking using <code className="bg-gray-100 px-2 py-1">gitmastery progress sync on</code> in the Git-Mastery app.
+            </p>
+            <Link
+              to="/"
+              className="hover:cursor-pointer border-1 border-red-700 bg-red-700 text-white rounded-sm px-4 py-2 font-semibold"
+            >
+              ← Return to search
+            </Link>
+          </div>
+        ) : (
             exerciseGroups.size === 0 ? (
               <div className="text-center">
                 <p className="mb-4">You have not completed any exercises yet</p>
-                <a href="https://git-mastery.github.io/exercises" target="_blank" className="hover:cursor-pointer border-1 border-blue-800 bg-blue-800 text-white rounded-sm px-4 py-2 font-semibold">Go to exercises directory ↗</a>
+                <a href="https://git-mastery.github.io/exercises-directory" target="_blank" className="hover:cursor-pointer border-1 border-blue-800 bg-blue-800 text-white rounded-sm px-4 py-2 font-semibold">Go to exercises directory ↗</a>
               </div>
             ) : (
               Array.from(exerciseGroups)
@@ -158,7 +144,7 @@ function Dashboard() {
                             .filter(exercise => parsedUserProgress.has(exercise.exercise_name))
                             .map((exercise, idx) => (
                               <tr key={idx}>
-                                <td className="border border-gray-300 px-4 py-2 text-left"><a target="_blank" href={`https://git-mastery.github.io/exercises/${exercise.exercise_name.replace("-", "_")}`}><code className="underline text-blue-800">{exercise.exercise_name}</code></a></td>
+                                <td className="border border-gray-300 px-4 py-2 text-left"><a target="_blank" href={`https://git-mastery.github.io/exercises-directory#exercise-${exercise.exercise_name}`}><code className="underline text-blue-800">{exercise.exercise_name}</code></a></td>
                                 <td className="border border-gray-300 px-4 py-2 text-left">{parsedUserProgress.get(exercise.exercise_name)}</td>
                               </tr>
                             ))}
