@@ -1,16 +1,16 @@
+import { Exercise, useGetExercisesQuery } from "@/api/queries/get_exercises";
+import { useGetUserQuery } from "@/api/queries/get_user";
+import { useGetUserProgressQuery } from "@/api/queries/get_user_progress";
+import Spinner from "@/components/ui/Spinner";
 import { useCallback, useMemo } from "react";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { IoArrowBack } from "react-icons/io5";
 import { MdOutlineRefresh } from "react-icons/md";
 import { Link, useParams } from "react-router";
-import { Exercise, useGetExercisesQuery } from "./api/queries/get_exercises";
-import { useGetUserQuery } from "./api/queries/get_user";
-import { useGetUserProgressQuery } from "./api/queries/get_user_progress";
-import Spinner from "./components/Spinner";
 
 type UserProblemSetStatus = string;
 
-function Dashboard() {
+function page() {
   const { username } = useParams();
 
   const {
@@ -161,4 +161,4 @@ function Dashboard() {
   )
 }
 
-export default Dashboard;
+export default page;

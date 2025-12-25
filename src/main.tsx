@@ -2,9 +2,9 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { HashRouter, Route, Routes } from 'react-router'
-import App from './App.tsx'
-import Dashboard from './Dashboard.tsx'
-import './index.css'
+import '@/styles/index.css'
+import App from '@/pages'
+import Dashboard from '@/pages/dashboard/(username)'
 
 const queryClient = new QueryClient()
 
