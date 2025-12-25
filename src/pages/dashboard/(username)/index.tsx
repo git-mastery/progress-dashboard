@@ -6,9 +6,9 @@ import {
   ExerciseGroupTable,
   StatusMessage,
 } from "@/components/dashboard";
+import Spinner from "@/components/ui/Spinner";
 import { useCallback, useMemo } from "react";
 import { useParams } from "react-router";
-import { Spinner } from "@/components/ui";
 
 type UserProblemSetStatus = string;
 
