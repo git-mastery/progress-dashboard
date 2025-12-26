@@ -74,10 +74,22 @@ function page() {
   }, [refetchUserProgress]);
 
   const isLoading =
-    isUserLoading || isUserProgressLoading || isUserProgressRefetching || isProblemSetsLoading;
+    useMemo(() => {
+      return (
+        isUserLoading ||
+        isUserProgressLoading ||
+        isUserProgressRefetching ||
+        isProblemSetsLoading
+      );
+    }, [
+      isUserLoading,
+      isUserProgressLoading,
+      isUserProgressRefetching,
+      isProblemSetsLoading,
+    ]);
 
   // Dynamically render content based on data availability
-  const renderContent = () => {
+  const renderContent = useCallback(() => {
     if (isLoading) {
       return (
         <div className="flex justify-center">
@@ -128,7 +140,7 @@ function page() {
         progress={parsedUserProgress}
       />
     ));
-  };
+  }, [isLoading, user, userProgress, exerciseGroups, parsedUserProgress]);
 
   return (
     <div className="lg:w-[40%] my-16 mx-auto md:w-[60%] w-[80%]">

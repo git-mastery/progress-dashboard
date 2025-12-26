@@ -2,8 +2,7 @@ import { Link } from "react-router";
 
 type ButtonVariant = "error" | "primary";
 
-interface StatusMessageProps {
-  children: React.ReactNode;
+interface StatusMessageProps extends React.PropsWithChildren {
   buttonText: string;
   buttonHref: string;
   variant?: ButtonVariant;

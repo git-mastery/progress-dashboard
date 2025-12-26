@@ -1,4 +1,5 @@
 import { Exercise } from "@/api/queries/get_exercises";
+import { useMemo } from "react";
 
 interface ExerciseGroupTableProps {
   groupName: string;
@@ -7,7 +8,10 @@ interface ExerciseGroupTableProps {
 }
 
 function ExerciseGroupTable({ groupName, exercises, progress }: ExerciseGroupTableProps) {
-  const filteredExercises = exercises.filter((exercise) => progress.has(exercise.exercise_name));
+  const filteredExercises = useMemo(
+    () => exercises.filter((exercise) => progress.has(exercise.exercise_name)),
+    [exercises, progress]
+  );
 
   return (
     <div className="not-last:mb-4">

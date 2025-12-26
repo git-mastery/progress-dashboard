@@ -10,7 +10,7 @@ interface DashboardHeaderProps {
 
 function DashboardHeader({ username, onRefresh }: DashboardHeaderProps) {
   return (
-    <>
+    <section>
       <h3 className="text-2xl font-bold mb-4">Git Mastery Progress Dashboard</h3>
       <div className="mb-6">
         <Link to="/" className="text-gray-500 italic mb-2 flex flex-row gap-2 items-center">
@@ -51,7 +51,7 @@ function DashboardHeader({ username, onRefresh }: DashboardHeaderProps) {
           </a>
         </p>
       </div>
-    </>
+    </section>
   );
 }
 
