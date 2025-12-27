@@ -29,14 +29,17 @@ function ExerciseContextLabel({ exercise }: { exercise: Exercise }) {
     const detourLink = `https://git-mastery.github.io/${exercise.detour.lesson.path}`;
     return (
       <span className="text-gray-500 text-sm ml-2">
-        (in <a href={lessonLink} target="_blank" className={linkClass}>{exercise.lesson.title}</a>,{' '}
-        <a href={detourLink} target="_blank" className={linkClass}>{exercise.detour.title}</a> detour)
+        (in <a href={detourLink} target="_blank" className={linkClass}>
+          {exercise.lesson.title} → Detour: {exercise.detour.title}
+        </a>)
       </span>
     );
   }
   return (
     <span className="text-gray-500 text-sm ml-2">
-      (in <a href={lessonLink} target="_blank" className={linkClass}>{exercise.lesson.title}</a>)
+      (in <a href={lessonLink} target="_blank" className={linkClass}>
+        {exercise.lesson.title}
+      </a>)
     </span>
   );
 }
