@@ -1,0 +1,130 @@
+import { useGetExercisesQuery } from "@/api/queries/get_exercises";
+import { useGetUserQuery } from "@/api/queries/get_user";
+import { useGetUserProgressQuery } from "@/api/queries/get_user_progress";
+import {
+  DashboardHeader,
+  ExerciseTable,
+  StatusMessage,
+} from "@/components/dashboard";
+import Spinner from "@/components/ui/Spinner";
+import { useCallback, useMemo } from "react";
+import { useParams } from "react-router";
+
+type UserProblemSetStatus = string;
+
+function page() {
+  const { username } = useParams();
+
+  const { data: user, isLoading: isUserLoading } = useGetUserQuery(username);
+
+  const {
+    data: userProgress,
+    isLoading: isUserProgressLoading,
+    isRefetchError: isUserProgressRefetching,
+    refetch: refetchUserProgress,
+  } = useGetUserProgressQuery(user?.login);
+
+  const parsedUserProgress = useMemo(() => {
+    if (isUserProgressLoading || userProgress == null) {
+      return new Map<string, UserProblemSetStatus>();
+    }
+
+    const progress = new Map<string, UserProblemSetStatus>();
+    for (const up of userProgress) {
+      if (!progress.has(up.exercise_name)) {
+        progress.set(up.exercise_name, up.status);
+      } else if (
+        (progress.get(up.exercise_name) !== "SUCCESSFUL" ||
+          progress.get(up.exercise_name) !== "Completed") &&
+        (up.status === "SUCCESSFUL" || up.status === "Completed")
+      ) {
+        // Take any success
+        progress.set(up.exercise_name, up.status);
+      }
+    }
+
+    return progress;
+  }, [userProgress, isUserProgressLoading]);
+
+  const { data: exercises, isLoading: isProblemSetsLoading } = useGetExercisesQuery();
+
+  const refreshUserProgress = useCallback(async () => {
+    await refetchUserProgress();
+  }, [refetchUserProgress]);
+
+  const isLoading =
+    useMemo(() => {
+    return (
+      isUserLoading ||
+      isUserProgressLoading ||
+      isUserProgressRefetching ||
+      isProblemSetsLoading
+    );
+  }, [
+    isUserLoading,
+    isUserProgressLoading,
+    isUserProgressRefetching,
+    isProblemSetsLoading,
+  ]);
+
+  // Dynamically render content based on data availability
+  const renderContent = useCallback(() => {
+    if (isLoading) {
+      return (
+        <div className="flex justify-center">
+          <Spinner />
+        </div>
+      );
+    }
+
+    if (user == null) {
+      return (
+        <StatusMessage buttonText="← Return to search" buttonHref="/" variant="error">
+          <p>User <strong>{username}</strong> does not exist</p>
+        </StatusMessage>
+      );
+    }
+
+    if (userProgress == null) {
+      return (
+        <StatusMessage buttonText="← Return to search" buttonHref="/" variant="error">
+          <p className="mb-2">No progress repository found for <strong>{username}</strong>.</p>
+          <p>
+            Ensure that you have enabled remote progress tracking using{" "}
+            <code className="bg-gray-100 px-2 py-1">gitmastery progress sync on</code> in the
+            Git-Mastery app.
+          </p>
+        </StatusMessage>
+      );
+    }
+
+    if (!exercises || exercises.length === 0) {
+      return (
+        <StatusMessage
+          buttonText="Go to exercises directory ↗"
+          buttonHref="https://git-mastery.github.io/exercises-directory"
+          variant="primary"
+          external
+        >
+          <p>No exercises available</p>
+        </StatusMessage>
+      );
+    }
+
+    return (
+      <ExerciseTable
+        exercises={exercises}
+        progress={parsedUserProgress}
+      />
+    );
+  }, [isLoading, user, userProgress, exercises, parsedUserProgress]);
+
+  return (
+    <div className="lg:w-[40%] my-16 mx-auto md:w-[60%] w-[80%]">
+      <DashboardHeader username={username!} onRefresh={refreshUserProgress} />
+      <div>{renderContent()}</div>
+    </div>
+  );
+}
+
+export default page;
