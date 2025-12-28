@@ -12,7 +12,7 @@ import { useParams } from "react-router";
 
 type UserProblemSetStatus = string;
 
-function page() {
+function DashboardPage() {
   const { username } = useParams();
 
   const { data: user, isLoading: isUserLoading } = useGetUserQuery(username);
@@ -73,8 +73,7 @@ function page() {
     await refetchUserProgress();
   }, [refetchUserProgress]);
 
-  const isLoading =
-    useMemo(() => {
+  const isLoading = useMemo(() => {
       return (
         isUserLoading ||
         isUserProgressLoading ||
@@ -140,7 +139,7 @@ function page() {
         progress={parsedUserProgress}
       />
     ));
-  }, [isLoading, user, userProgress, exerciseGroups, parsedUserProgress]);
+  }, [isLoading, user, userProgress, exerciseGroups, parsedUserProgress, username]);
 
   return (
     <div className="lg:w-[40%] my-16 mx-auto md:w-[60%] w-[80%]">
@@ -150,4 +149,4 @@ function page() {
   );
 }
 
-export default page;
+export default DashboardPage;

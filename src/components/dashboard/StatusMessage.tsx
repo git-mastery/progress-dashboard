@@ -32,9 +32,20 @@ function StatusMessage({
     <div className="text-center">
       <div className={textStyles[variant]}>{children}</div>
       <div className="mt-4">
-        <Link to={buttonHref} target={external ? "_blank" : "_self"} className={buttonClasses}>
-          {buttonText}
-        </Link>
+        {external ? (
+          <a 
+            href={buttonHref} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className={buttonClasses}
+          >
+            {buttonText}
+          </a>
+        ) : (
+          <Link to={buttonHref} className={buttonClasses}>
+            {buttonText}
+          </Link>
+        )}
       </div>
     </div>
   );

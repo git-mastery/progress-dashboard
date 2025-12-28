@@ -23,12 +23,19 @@ function DashboardHeader({ username, onRefresh }: DashboardHeaderProps) {
               target="_blank"
               className="hover:cursor-pointer text-gray-500"
               href={`https://github.com/${username}`}
+              rel="noopener noreferrer"
+              aria-label="View GitHub profile"
             >
               <HiOutlineExternalLink size={24} />
             </a>
           </div>
-          <button type="button" className="hover:cursor-pointer" onClick={onRefresh}>
-            <MdOutlineRefresh size={24} color="text-gray-500" />
+          <button 
+            type="button" 
+            className="hover:cursor-pointer" 
+            onClick={onRefresh} 
+            aria-label="Refresh progress data"
+          >
+            <MdOutlineRefresh size={24} className="text-gray-500" />
           </button>
         </div>
         <p className="text-gray-700 font-semibold">
@@ -39,6 +46,8 @@ function DashboardHeader({ username, onRefresh }: DashboardHeaderProps) {
           <a
             className="text-blue-800 underline"
             href="https://git-mastery.github.io/exercises-directory"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             exercises directory
           </a>
@@ -46,7 +55,12 @@ function DashboardHeader({ username, onRefresh }: DashboardHeaderProps) {
         </p>
         <p className="mt-2 italic">
           If there is a discrepancy, open a ticket with the Git-Mastery team{" "}
-          <a className="text-blue-800 underline" href="https://github.com/git-mastery/git-mastery">
+          <a 
+            className="text-blue-800 underline" 
+            href="https://github.com/git-mastery/git-mastery"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             here
           </a>
         </p>

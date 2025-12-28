@@ -36,6 +36,7 @@ function ExerciseGroupTable({ groupName, exercises, progress }: ExerciseGroupTab
                 <a
                   target="_blank"
                   href={`https://git-mastery.github.io/exercises-directory#exercise-${exercise.exercise_name}`}
+                  rel="noopener noreferrer"
                 >
                   <code className="underline text-blue-800">{exercise.exercise_name}</code>
                 </a>

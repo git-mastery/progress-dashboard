@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-function page() {
+function HomePage() {
   const navigate = useNavigate()
   const [username, setUsername] = useState<string>("");
 
@@ -36,4 +36,4 @@ function page() {
   )
 }
 
-export default page
+export default HomePage;
