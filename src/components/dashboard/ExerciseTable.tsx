@@ -1,6 +1,5 @@
 import { Exercise } from "@/types/exercise";
 
-
 interface ExerciseTableProps {
   exercises: Exercise[];
   progress: Map<string, string>;
@@ -30,7 +29,7 @@ function ExerciseContextLabel({ exercise }: { exercise: Exercise }) {
     const detourLink = `https://git-mastery.github.io/${exercise.detour.lesson.path}`;
     return (
       <span className="text-gray-500 text-sm ml-2">
-        (in <a href={detourLink} target="_blank" className={linkClass}>
+        (in <a href={detourLink} target="_blank" rel="noopener noreferrer" className={linkClass}>
           {exercise.lesson.title} → Detour: {exercise.detour.title}
         </a>)
       </span>
@@ -38,7 +37,7 @@ function ExerciseContextLabel({ exercise }: { exercise: Exercise }) {
   }
   return (
     <span className="text-gray-500 text-sm ml-2">
-      (in <a href={lessonLink} target="_blank" className={linkClass}>
+      (in <a href={lessonLink} target="_blank" rel="noopener noreferrer" className={linkClass}>
         {exercise.lesson.title}
       </a>)
     </span>
@@ -61,12 +60,14 @@ function ExerciseTable({ exercises, progress }: ExerciseTableProps) {
       <tbody>
         {exercises.map((exercise) => {
           const status = getStatusDisplay(progress.get(exercise.identifier));
+          const lessonPath = exercise.detour?.lesson.path ?? exercise.lesson.path;
           return (
             <tr key={exercise.key}>
               <td className="border border-gray-300 px-4 py-2 text-left">
                 <a
                   target="_blank"
-                  href={`https://git-mastery.github.io/${exercise.lesson.path}/exercise-${exercise.identifier}`}
+                  rel="noopener noreferrer"
+                  href={`https://git-mastery.github.io/${lessonPath}/exercise-${exercise.identifier}`}
                 >
                   <code className="underline text-blue-800">{exercise.identifier}</code>
                 </a>
