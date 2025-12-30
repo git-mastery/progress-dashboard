@@ -11,13 +11,43 @@ export interface ExerciseRaw {
 
 type ExercisesResponse = Record<string, ExerciseRaw>;
 
+/**
+ * Parses a lesson title like to extract tour (T) and lesson (L) numbers.
+ */
+function parseExerciseOrder(title: string): { tour: number; lesson: number } | null {
+  const match = title.match(/^T(\d+)L(\d+)/);
+  if (!match) {
+    return null;
+  }
+  return {
+    tour: parseInt(match[1], 10),
+    lesson: parseInt(match[2], 10),
+  };
+}
+
+/**
+ * Compares two exercises for sorting: by tour (T) first, then by lesson (L).
+ */
+function compareExercises(a: Exercise, b: Exercise): number {
+  const orderA = parseExerciseOrder(a.lesson.title);
+  const orderB = parseExerciseOrder(b.lesson.title);
+
+  if (!orderA && !orderB) return 0;
+  if (!orderA) return 1;
+  if (!orderB) return -1;
+
+  if (orderA.tour !== orderB.tour) {
+    return orderA.tour - orderB.tour;
+  }
+  return orderA.lesson - orderB.lesson;
+}
+
 export const getExercises = async (): Promise<Exercise[]> => {
   try {
     const result = await axios.get<ExercisesResponse>(
       "https://git-mastery.github.io/exercises-directory/exercises.json"
     );
 
-    // TODO: Sorting of exercises, but not needed now as API returns exercises in order
     const exercises: Exercise[] = [];
     for (const [key, value] of Object.entries(result.data)) {
       // Filter WIP exercises at API layer since they're not meant to be visible
@@ -39,7 +69,7 @@ export const getExercises = async (): Promise<Exercise[]> => {
       });
     }
 
-    return exercises;
+    return exercises.sort(compareExercises);
   } catch {
     return [];
   }
