@@ -1,9 +1,9 @@
-import { Exercise, useGetExercisesQuery } from "@/api/queries/get_exercises";
+import { useGetExercisesQuery } from "@/api/queries/get_exercises";
 import { useGetUserQuery } from "@/api/queries/get_user";
 import { useGetUserProgressQuery } from "@/api/queries/get_user_progress";
 import {
   DashboardHeader,
-  ExerciseGroupTable,
+  ExerciseTable,
   StatusMessage,
 } from "@/components/dashboard";
 import Spinner from "@/components/ui/Spinner";
@@ -34,7 +34,7 @@ function DashboardPage() {
       if (!progress.has(up.exercise_name)) {
         progress.set(up.exercise_name, up.status);
       } else if (
-        (progress.get(up.exercise_name) !== "SUCCESSFUL" ||
+        (progress.get(up.exercise_name) !== "SUCCESSFUL" &&
           progress.get(up.exercise_name) !== "Completed") &&
         (up.status === "SUCCESSFUL" || up.status === "Completed")
       ) {
@@ -47,27 +47,6 @@ function DashboardPage() {
   }, [userProgress, isUserProgressLoading]);
 
   const { data: exercises, isLoading: isProblemSetsLoading } = useGetExercisesQuery();
-
-  const exerciseGroups = useMemo(() => {
-    if (isProblemSetsLoading || exercises == null) {
-      return new Map<string, Exercise[]>();
-    }
-
-    const repoGroups = new Map<string, Exercise[]>();
-    for (const exercise of exercises) {
-      for (const tag of exercise.tags) {
-        if (parsedUserProgress.has(exercise.exercise_name)) {
-          if (!repoGroups.has(tag)) {
-            repoGroups.set(tag, []);
-          }
-          repoGroups.get(tag)!.push(exercise);
-        }
-      }
-    }
-
-    const sortedGroups = new Map([...repoGroups.entries()].sort());
-    return sortedGroups;
-  }, [exercises, isProblemSetsLoading, parsedUserProgress]);
 
   const refreshUserProgress = useCallback(async () => {
     await refetchUserProgress();
@@ -118,7 +97,7 @@ function DashboardPage() {
       );
     }
 
-    if (exerciseGroups.size === 0) {
+    if (!exercises || exercises.length === 0) {
       return (
         <StatusMessage
           buttonText="Go to exercises directory ↗"
@@ -126,20 +105,18 @@ function DashboardPage() {
           variant="primary"
           external
         >
-          <p>You have not completed any exercises yet</p>
+          <p>No exercises available</p>
         </StatusMessage>
       );
     }
 
-    return Array.from(exerciseGroups).map(([groupName, exercises]) => (
-      <ExerciseGroupTable
-        key={groupName}
-        groupName={groupName}
+    return (
+      <ExerciseTable
         exercises={exercises}
         progress={parsedUserProgress}
       />
-    ));
-  }, [isLoading, user, userProgress, exerciseGroups, parsedUserProgress, username]);
+    );
+  }, [isLoading, user, userProgress, exercises, parsedUserProgress, username]);
 
   return (
     <div className="lg:w-[40%] my-16 mx-auto md:w-[60%] w-[80%]">
