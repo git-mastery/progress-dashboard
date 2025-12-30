@@ -6,6 +6,7 @@ import {
   ExerciseTable,
   StatusMessage,
 } from "@/components/dashboard";
+import { EXERCISES_DIRECTORY_URL, ExerciseStatus } from "@/constants";
 import Spinner from "@/components/ui/Spinner";
 import { useCallback, useMemo } from "react";
 import { useParams } from "react-router";
@@ -34,9 +35,9 @@ function DashboardPage() {
       if (!progress.has(up.exercise_name)) {
         progress.set(up.exercise_name, up.status);
       } else if (
-        (progress.get(up.exercise_name) !== "SUCCESSFUL" &&
-          progress.get(up.exercise_name) !== "Completed") &&
-        (up.status === "SUCCESSFUL" || up.status === "Completed")
+        (progress.get(up.exercise_name) !== ExerciseStatus.COMPLETED &&
+          progress.get(up.exercise_name) !== ExerciseStatus.SUCCESSFUL) &&
+        (up.status === ExerciseStatus.SUCCESSFUL || up.status === ExerciseStatus.COMPLETED)
       ) {
         // Take any success
         progress.set(up.exercise_name, up.status);
@@ -101,7 +102,7 @@ function DashboardPage() {
       return (
         <StatusMessage
           buttonText="Go to exercises directory ↗"
-          buttonHref="https://git-mastery.github.io/exercises-directory"
+          buttonHref={EXERCISES_DIRECTORY_URL}
           variant="primary"
           external
         >

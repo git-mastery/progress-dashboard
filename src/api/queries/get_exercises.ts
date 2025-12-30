@@ -1,3 +1,4 @@
+import { EXERCISES_DIRECTORY_URL } from "@/constants";
 import { DetourInfo, Exercise, LessonInfo } from "@/types/exercise";
 import axios from "axios"
 import { useQuery } from "react-query"
@@ -45,7 +46,7 @@ function compareExercises(a: Exercise, b: Exercise): number {
 export const getExercises = async (): Promise<Exercise[]> => {
   try {
     const result = await axios.get<ExercisesResponse>(
-      "https://git-mastery.github.io/exercises-directory/exercises.json"
+      `${EXERCISES_DIRECTORY_URL}/exercises.json`
     );
 
     const exercises: Exercise[] = [];

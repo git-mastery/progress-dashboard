@@ -1,3 +1,4 @@
+import { BASE_URL, ExerciseStatus } from "@/constants";
 import { Exercise } from "@/types/exercise";
 
 interface ExerciseTableProps {
@@ -9,13 +10,13 @@ function getStatusDisplay(status: string | undefined): { text: string; icon: str
   if (!status) {
     return { text: "Not Started", icon: "⚪" };
   }
-  if (status === "Completed" || status === "SUCCESSFUL") { // SUCCESSFUL is for backwards compatibility
+  if (status === ExerciseStatus.COMPLETED || status === ExerciseStatus.SUCCESSFUL) { // SUCCESSFUL is for backwards compatibility
     return { text: "Completed", icon: "✅" };
   }
-  if (status === "Incomplete") {
+  if (status === ExerciseStatus.INCOMPLETE) {
     return { text: "Incomplete", icon: "⏳" };
   }
-  if (status === "Error") {
+  if (status === ExerciseStatus.ERROR) {
     return { text: "Error", icon: "❌" };
   }
   return { text: status, icon: "🔄" };
@@ -23,10 +24,10 @@ function getStatusDisplay(status: string | undefined): { text: string; icon: str
 
 function ExerciseContextLabel({ exercise }: { exercise: Exercise }) {
   const linkClass = "text-blue-600 hover:underline";
-  const lessonLink = `https://git-mastery.github.io/${exercise.parentLesson.path}`;
+  const lessonLink = `${BASE_URL}/${exercise.parentLesson.path}`;
 
   if (exercise.detour) {
-    const detourLink = `https://git-mastery.github.io/${exercise.detour.lesson.path}`;
+    const detourLink = `${BASE_URL}/${exercise.detour.lesson.path}`;
     return (
       <span className="text-gray-500 text-sm ml-2">
         (in <a href={detourLink} target="_blank" rel="noopener noreferrer" className={linkClass}>
@@ -67,7 +68,7 @@ function ExerciseTable({ exercises, progress }: ExerciseTableProps) {
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  href={`https://git-mastery.github.io/${lessonPath}/exercise-${exercise.identifier}`}
+                  href={`${BASE_URL}/${lessonPath}/exercise-${exercise.identifier}`}
                 >
                   <code className="underline text-blue-800">{exercise.identifier}</code>
                 </a>
