@@ -29,8 +29,8 @@ function parseExerciseOrder(title: string): { tour: number; lesson: number } | n
  * Compares two exercises for sorting: by tour (T) first, then by lesson (L).
  */
 function compareExercises(a: Exercise, b: Exercise): number {
-  const orderA = parseExerciseOrder(a.lesson.title);
-  const orderB = parseExerciseOrder(b.lesson.title);
+  const orderA = parseExerciseOrder(a.parentLesson.title);
+  const orderB = parseExerciseOrder(b.parentLesson.title);
 
   if (!orderA && !orderB) return 0;
   if (!orderA) return 1;
@@ -64,7 +64,7 @@ export const getExercises = async (): Promise<Exercise[]> => {
       exercises.push({
         key,
         identifier: value.identifier,
-        lesson,
+        parentLesson: lesson,
         detour: value.detour,
       });
     }

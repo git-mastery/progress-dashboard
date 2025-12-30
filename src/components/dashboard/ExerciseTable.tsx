@@ -23,14 +23,14 @@ function getStatusDisplay(status: string | undefined): { text: string; icon: str
 
 function ExerciseContextLabel({ exercise }: { exercise: Exercise }) {
   const linkClass = "text-blue-600 hover:underline";
-  const lessonLink = `https://git-mastery.github.io/${exercise.lesson.path}`;
+  const lessonLink = `https://git-mastery.github.io/${exercise.parentLesson.path}`;
 
   if (exercise.detour) {
     const detourLink = `https://git-mastery.github.io/${exercise.detour.lesson.path}`;
     return (
       <span className="text-gray-500 text-sm ml-2">
         (in <a href={detourLink} target="_blank" rel="noopener noreferrer" className={linkClass}>
-          {exercise.lesson.title} → Detour: {exercise.detour.title}
+          {exercise.parentLesson.title} → Detour: {exercise.detour.title}
         </a>)
       </span>
     );
@@ -38,7 +38,7 @@ function ExerciseContextLabel({ exercise }: { exercise: Exercise }) {
   return (
     <span className="text-gray-500 text-sm ml-2">
       (in <a href={lessonLink} target="_blank" rel="noopener noreferrer" className={linkClass}>
-        {exercise.lesson.title}
+        {exercise.parentLesson.title}
       </a>)
     </span>
   );
@@ -60,7 +60,7 @@ function ExerciseTable({ exercises, progress }: ExerciseTableProps) {
       <tbody>
         {exercises.map((exercise) => {
           const status = getStatusDisplay(progress.get(exercise.identifier));
-          const lessonPath = exercise.detour?.lesson.path ?? exercise.lesson.path;
+          const lessonPath = exercise.detour?.lesson.path ?? exercise.parentLesson.path;
           return (
             <tr key={exercise.key}>
               <td className="border border-gray-300 px-4 py-2 text-left">

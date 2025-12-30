@@ -11,6 +11,6 @@ export interface DetourInfo {
 export interface Exercise {
   key: string;
   identifier: string;
-  lesson: LessonInfo;
+  parentLesson: LessonInfo;
   detour?: DetourInfo;
 }
