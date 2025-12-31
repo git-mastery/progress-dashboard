@@ -33,9 +33,9 @@ function compareExercises(a: Exercise, b: Exercise): number {
   const orderA = parseExerciseOrder(a.parentLesson.title);
   const orderB = parseExerciseOrder(b.parentLesson.title);
 
-  if (!orderA && !orderB) return 0;
-  if (!orderA) return 1;
-  if (!orderB) return -1;
+  if (orderA == null && orderB == null) return 0;
+  if (orderA == null) return 1;
+  if (orderB == null) return -1;
 
   if (orderA.tour !== orderB.tour) {
     return orderA.tour - orderB.tour;

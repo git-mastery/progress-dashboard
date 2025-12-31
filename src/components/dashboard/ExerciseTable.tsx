@@ -7,19 +7,20 @@ interface ExerciseTableProps {
 }
 
 function getStatusDisplay(status: string | undefined): { text: string; icon: string } {
-  if (!status) {
-    return { text: "Not Started", icon: "⚪" };
+  switch (status) {
+    case undefined: // Needed for TypeScript strictness
+    case null:  
+      return { text: "Not Started", icon: "⚪" };
+    case ExerciseStatus.COMPLETED:
+    case ExerciseStatus.SUCCESSFUL: // SUCCESSFUL is for backwards compatibility
+      return { text: "Completed", icon: "✅" };
+    case ExerciseStatus.INCOMPLETE:
+      return { text: "Incomplete", icon: "⏳" };
+    case ExerciseStatus.ERROR:
+      return { text: "Error", icon: "❌" };
+    default:
+      return { text: status, icon: "🔄" };
   }
-  if (status === ExerciseStatus.COMPLETED || status === ExerciseStatus.SUCCESSFUL) { // SUCCESSFUL is for backwards compatibility
-    return { text: "Completed", icon: "✅" };
-  }
-  if (status === ExerciseStatus.INCOMPLETE) {
-    return { text: "Incomplete", icon: "⏳" };
-  }
-  if (status === ExerciseStatus.ERROR) {
-    return { text: "Error", icon: "❌" };
-  }
-  return { text: status, icon: "🔄" };
 }
 
 function ExerciseContextLabel({ exercise }: { exercise: Exercise }) {
@@ -31,7 +32,7 @@ function ExerciseContextLabel({ exercise }: { exercise: Exercise }) {
     return (
       <span className="text-gray-500 text-sm ml-2">
         (in <a href={detourLink} target="_blank" rel="noopener noreferrer" className={linkClass}>
-          {exercise.parentLesson.title} → Detour: {exercise.detour.title}
+          {exercise.parentLesson.title} &#8594; Detour: {exercise.detour.title}
         </a>)
       </span>
     );

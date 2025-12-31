@@ -98,7 +98,7 @@ function DashboardPage() {
       );
     }
 
-    if (!exercises || exercises.length === 0) {
+    if (exercises == null || exercises.length === 0) {
       return (
         <StatusMessage
           buttonText="Go to exercises directory ↗"
