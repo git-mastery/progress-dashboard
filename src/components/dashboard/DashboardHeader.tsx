@@ -23,7 +23,7 @@ const DASHBOARD_LINKS: DashboardLinkProps[] = [
   }
 ];
 
-function DashboardHeaderLinks({ links }: { links: DashboardLinkProps[] }) {
+function DashboardHeaderExternalLinks({ links }: { links: DashboardLinkProps[] }) {
   const linkClassName = "text-blue-600 mb-2 flex flex-row gap-2 items-center text-sm underline";
   
   return (
@@ -40,34 +40,37 @@ function DashboardHeaderLinks({ links }: { links: DashboardLinkProps[] }) {
   )
 }
 
-function DashboardHeaderNavigation({ onRefresh }: { onRefresh: () => void }) {
+function DashboardHeaderToolbar({ onRefresh }: { onRefresh: () => void }) {
   return (
-    <nav className="flex flex-row justify-between items-center mb-8 text-gray-500">
-      <Link to="/" className="mb-2 flex flex-row gap-2 items-center text-sm">
-        <IoArrowBack size={20}/>
-        Back to change user
-      </Link>
+    <div className="flex flex-row justify-between items-center mb-8 text-gray-500">
+      <nav>
+        <Link to="/" className="flex flex-row gap-2 items-center text-sm">
+          <IoArrowBack size={20}/>
+          Back to change user
+        </Link>
+      </nav>
       <button
+        type="button"
         onClick={onRefresh}
         aria-label="Refresh progress data"
-        className="mb-2 flex flex-row gap-2 items-center text-sm cursor-pointer"
+        className="flex flex-row gap-2 items-center text-sm cursor-pointer"
       >
         <MdOutlineRefresh size={20}/>
         Refresh
       </button>
-    </nav>
+    </div>
   )
 }
 
 function DashboardHeader({ username, onRefresh }: DashboardHeaderProps) {
   return (
     <header className="mb-6">
-      <DashboardHeaderNavigation onRefresh={onRefresh}/>
-      <h3 className="text-3xl font-bold mb-4 text-center">Git Mastery Progress Dashboard for <a href={`https://github.com/${username}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 gap-2 items-center hover:underline">
+      <DashboardHeaderToolbar onRefresh={onRefresh}/>
+      <h1 className="text-3xl font-bold mb-4 text-center">Git Mastery Progress Dashboard for <a href={`https://github.com/${username}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 gap-2 items-center hover:underline">
           @{username}
         </a>
-      </h3>
-      <DashboardHeaderLinks links={DASHBOARD_LINKS} />
+      </h1>
+      <DashboardHeaderExternalLinks links={DASHBOARD_LINKS} />
     </header>
   );
 }
