@@ -1,3 +1,5 @@
+import { IoArrowBack } from "react-icons/io5";
+import { MdOutlineRefresh } from "react-icons/md";
 import { Link } from "react-router";
 
 interface DashboardHeaderProps {
@@ -5,59 +7,32 @@ interface DashboardHeaderProps {
   onRefresh: () => void;
 }
 
-interface LinkProps {
+interface DashboardLinkProps {
   label: string;
-  href?: string;
-  isExternal?: boolean;
-  onClick?: () => void;
+  href: string;
 }
 
-const getDashboardLinks = (onRefresh: () => void): LinkProps[] => [
-  {
-    label: "Change user",
-    href: "/",
-    isExternal: false,
-  },
+const DASHBOARD_LINKS: DashboardLinkProps[] = [
   {
     label: "Exercises directory",
     href: "https://git-mastery.github.io/exercises-directory",
-    isExternal: true,
   },
   {
     label: "Report a bug",
     href: "https://github.com/git-mastery/git-mastery/issues",
-    isExternal: true,
-  },
-  {
-    label: "Refresh",
-    onClick: onRefresh,
   }
 ];
 
-function DashboardHeaderLinks({ links }: { links: LinkProps[] }) {
+function DashboardHeaderLinks({ links }: { links: DashboardLinkProps[] }) {
   const linkClassName = "text-blue-600 mb-2 flex flex-row gap-2 items-center text-sm underline";
   
   return (
     <div className="flex flex-row justify-center gap-2 items-center">
       {links.map((link, index) => (
         <span key={link.label} className="flex flex-row gap-2 items-center">
-          {link.onClick ? (
-            <button
-              type="button"
-              onClick={link.onClick}
-              className={`${linkClassName} hover:cursor-pointer`}
-            >
-              {link.label}
-            </button>
-          ) : link.isExternal ? (
-            <a href={link.href} target="_blank" rel="noopener noreferrer" className={linkClassName}>
-              {link.label}
-            </a>
-          ) : (
-            <Link to={link.href!} className={linkClassName}>
-              {link.label}
-            </Link>
-          )}
+          <a href={link.href} target="_blank" rel="noopener noreferrer" className={linkClassName}>
+            {link.label}
+          </a>
           {index < links.length - 1 && <span className="text-gray-400 mb-2">|</span>}
         </span>
       ))}
@@ -65,11 +40,31 @@ function DashboardHeaderLinks({ links }: { links: LinkProps[] }) {
   )
 }
 
+function DashboardHeaderNavigation({ onRefresh }: { onRefresh: () => void }) {
+  return (
+    <nav className="flex flex-row justify-between items-center mb-8 text-gray-500">
+      <Link to="/" className="mb-2 flex flex-row gap-2 items-center text-sm">
+        <IoArrowBack size={20}/>
+        Back to change user
+      </Link>
+      <button
+        onClick={onRefresh}
+        aria-label="Refresh progress data"
+        className="mb-2 flex flex-row gap-2 items-center text-sm cursor-pointer"
+      >
+        <MdOutlineRefresh size={20}/>
+        Refresh
+      </button>
+    </nav>
+  )
+}
+
 function DashboardHeader({ username, onRefresh }: DashboardHeaderProps) {
   return (
     <header className="mb-6">
+      <DashboardHeaderNavigation onRefresh={onRefresh}/>
       <h3 className="text-3xl font-bold mb-4 text-center">Git Mastery Progress Dashboard for @{username}</h3>
-      <DashboardHeaderLinks links={getDashboardLinks(onRefresh)} />
+      <DashboardHeaderLinks links={DASHBOARD_LINKS} />
     </header>
   );
 }
