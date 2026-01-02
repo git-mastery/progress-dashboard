@@ -63,7 +63,10 @@ function DashboardHeader({ username, onRefresh }: DashboardHeaderProps) {
   return (
     <header className="mb-6">
       <DashboardHeaderNavigation onRefresh={onRefresh}/>
-      <h3 className="text-3xl font-bold mb-4 text-center">Git Mastery Progress Dashboard for @{username}</h3>
+      <h3 className="text-3xl font-bold mb-4 text-center">Git Mastery Progress Dashboard for <a href={`https://github.com/${username}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 gap-2 items-center hover:underline">
+          @{username}
+        </a>
+      </h3>
       <DashboardHeaderLinks links={DASHBOARD_LINKS} />
     </header>
   );
