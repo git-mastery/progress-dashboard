@@ -17,6 +17,12 @@ function HomePage() {
     return username.trim() === ""
   }, [username])
 
+  const handleEnterKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !isSearchDisabled) {
+      searchUser()
+    }
+  }, [isSearchDisabled, searchUser])
+
   return (
     <div className="lg:w-[40%] my-28 mx-auto md:w-[60%] w-[80%]">
       <div className="text-center mb-6">
@@ -27,7 +33,7 @@ function HomePage() {
         <div className="flex items-center justify-center p-4 border-r border-r-gray-700">
           <span className="font-bold">@</span>
         </div>
-        <input onChange={usernameInput} autoFocus className="font-semibold w-full px-4 focus:outline-none" placeholder="Your Github username" type="text" />
+        <input onChange={usernameInput} onKeyDown={handleEnterKeyDown} autoFocus className="font-semibold w-full px-4 focus:outline-none" placeholder="Your Github username" type="text" />
       </div>
       <div className="text-center mt-4">
         <button type="button" onClick={searchUser} disabled={isSearchDisabled} className="enabled:hover:cursor-pointer enabled:hover:bg-gray-600 enabled:hover:text-white transition border-1 rounded-sm px-4 py-2 font-semibold disabled:border-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed">View Progress →</button>
