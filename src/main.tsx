@@ -5,8 +5,9 @@ import { HashRouter, Route, Routes } from 'react-router'
 import '@/styles/index.css'
 import App from '@/pages'
 import Dashboard from '@/pages/dashboard/(username)'
+import FaqPage from '@/pages/faq'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -15,8 +16,9 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route index element={<App />} />
           <Route path="dashboard/:username" element={<Dashboard />} />
+          <Route path="faq" element={<FaqPage />} />
         </Routes>
       </HashRouter>
     </QueryClientProvider>
-  </StrictMode>,
-)
+  </StrictMode>
+);
