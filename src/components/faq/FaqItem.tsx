@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useMemo, useState } from "react";
 import { FaqItemType } from "@/constants/faq";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 
@@ -10,7 +10,7 @@ interface FaqItemProps {
 function FaqItem({ item, index: number }: FaqItemProps) {
   const [isOpen, setIsOpen] = useState(true);
 
-  const renderAnswer = useCallback(() => {
+  const answerContent = useMemo(() => {
     if (Array.isArray(item.answer)) {
       return (
         <div className="flex flex-col gap-3">
@@ -54,7 +54,7 @@ function FaqItem({ item, index: number }: FaqItemProps) {
         </span>
       </button>
       {isOpen && (
-        <div className="px-6 pb-5 pt-0">{renderAnswer()}</div>
+        <div className="px-6 pb-5 pt-0">{answerContent}</div>
       )}
     </div>
   );
