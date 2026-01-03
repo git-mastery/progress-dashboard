@@ -10,6 +10,7 @@ import { EXERCISES_DIRECTORY_URL, ExerciseStatus } from "@/constants";
 import Spinner from "@/components/ui/Spinner";
 import { useCallback, useMemo } from "react";
 import { useParams } from "react-router";
+import { useQueryClient } from "react-query";
 
 type UserProblemSetStatus = string;
 
@@ -21,8 +22,7 @@ function DashboardPage() {
   const {
     data: userProgress,
     isLoading: isUserProgressLoading,
-    isRefetchError: isUserProgressRefetching,
-    refetch: refetchUserProgress,
+    isFetching: isUserProgressFetching,
   } = useGetUserProgressQuery(user?.login);
 
   const parsedUserProgress = useMemo(() => {
@@ -49,22 +49,23 @@ function DashboardPage() {
 
   const { data: exercises, isLoading: isProblemSetsLoading } = useGetExercisesQuery();
 
+  const queryClient = useQueryClient();
   const refreshUserProgress = useCallback(async () => {
-    await refetchUserProgress();
-  }, [refetchUserProgress]);
+    await queryClient.invalidateQueries(["get-user-progress", user?.login]);
+  }, [queryClient, user?.login]);
 
   const isLoading = useMemo(() => {
       return (
         isUserLoading ||
         isUserProgressLoading ||
-        isUserProgressRefetching ||
+        isUserProgressFetching ||
         isProblemSetsLoading
       );
     }, [
       isUserLoading,
       isUserProgressLoading,
-      isUserProgressRefetching,
-      isProblemSetsLoading,
+      isUserProgressFetching,
+      isProblemSetsLoading
     ]);
 
   // Dynamically render content based on data availability

@@ -51,10 +51,10 @@ function ExerciseTable({ exercises, progress }: ExerciseTableProps) {
     <table className="table-fixed w-full bg-white border border-gray-300 rounded-sm">
       <thead>
         <tr>
-          <th className="bg-gray-200 border border-gray-300 px-4 py-2 text-left">
+          <th className="bg-emerald-700 text-white border border-emerald-800 px-4 py-2 text-left">
             Exercise
           </th>
-          <th className="bg-gray-200 border border-gray-300 px-4 py-2 text-left w-40">
+          <th className="bg-emerald-700 text-white border border-emerald-800 px-4 py-2 text-left w-40">
             Status
           </th>
         </tr>
