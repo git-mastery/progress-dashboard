@@ -5,9 +5,9 @@ function FaqPage() {
   return (
     <div className="lg:w-[40%] my-16 mx-auto md:w-[60%] w-[80%]">
       <FaqHeader />
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 mt-8">
         {FAQ_ITEMS.map((item, index) => (
-          <FaqItem key={index} item={item} />
+          <FaqItem key={index} item={item} index={index + 1} />
         ))}
       </div>
       <div>
