@@ -1,4 +1,4 @@
-import { BASE_URL } from "@/constants";
+import { DASHBOARD_LINKS, DashboardLinkType } from "@/constants/dashboard";
 import { IoArrowBack } from "react-icons/io5";
 import { MdOutlineRefresh } from "react-icons/md";
 import { Link } from "react-router";
@@ -8,22 +8,10 @@ interface DashboardHeaderProps {
   onRefresh: () => void;
 }
 
-interface DashboardLinkProps {
-  label: string;
-  href: string;
-}
-
-const DASHBOARD_LINKS: DashboardLinkProps[] = [
-  {
-    label: "Exercises directory",
-    href: `${BASE_URL}/exercises-directory`,
-  },
-];
-
 function DashboardHeaderExternalLinks({
   links,
 }: {
-  links: DashboardLinkProps[];
+  links: DashboardLinkType[];
 }) {
   const linkClassName =
     "text-blue-600 mb-2 flex flex-row gap-2 items-center text-sm underline";
