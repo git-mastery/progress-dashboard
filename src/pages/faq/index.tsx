@@ -1,11 +1,30 @@
+import { FaqHeader, FaqItem } from "@/components/faq";
+import { FAQ_ITEMS } from "@/constants/faq";
+
 function FaqPage() {
   return (
-    <div className="lg:w-[40%] my-28 mx-auto md:w-[60%] w-[80%]">
-      <div className="text-center mb-6">
-        <h1 className="text-4xl font-bold mb-4">Frequently Asked Questions</h1>
+    <div className="lg:w-[40%] my-16 mx-auto md:w-[60%] w-[80%]">
+      <FaqHeader />
+      <div className="flex flex-col gap-4">
+        {FAQ_ITEMS.map((item, index) => (
+          <FaqItem key={index} item={item} />
+        ))}
       </div>
-      <div className="flex flex-row border w-full rounded-sm"></div>
-      <div className="text-center mt-4"></div>
+      <div>
+        <p className="text-sm text-gray-500 mt-8 text-center">
+          For further inquiries or to report a bug, please submit an issue via
+          our repository
+          <a
+            href="https://github.com/git-mastery/git-mastery/issues"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 underline ml-1"
+          >
+            here
+          </a>
+          .
+        </p>
+      </div>
     </div>
   );
 }
