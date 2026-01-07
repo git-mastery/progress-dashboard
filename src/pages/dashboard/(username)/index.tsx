@@ -121,7 +121,7 @@ function DashboardPage() {
   }, [isLoading, user, userProgress, exercises, parsedUserProgress, username]);
 
   return (
-    <div className="lg:w-[40%] my-16 mx-auto md:w-[60%] w-[80%]">
+    <div className="my-16 mx-auto lg:w-[80%] xl:w-[70%] 2xl:w-[60%] w-[85%]">
       <DashboardHeader username={username!} onRefresh={refreshUserProgress} />
       <div>{renderContent()}</div>
     </div>
