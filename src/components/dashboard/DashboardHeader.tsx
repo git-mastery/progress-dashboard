@@ -62,11 +62,16 @@ function DashboardHeaderToolbar({ onRefresh }: { onRefresh: () => void }) {
 function DashboardHeaderNote() {
   return (
     <p className="text-center text-gray-600 italic mb-4 text-sm">
-      Progress seen is not expected? See these{" "}
-      <Link to="/faq" className="text-blue-600">
-        troubleshooting tips
-      </Link>
-      .
+      Progress shown below  <span className="font-bold">may not include activity from the last five minutes</span>, as there is a slight delay in progress data propagating through GitHub. See {" "}
+      <a
+        href="https://git-mastery.org/faq/index.html#faq-why-is-the-dashboard-not-showing-my-latest-progress"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 underline"
+      >
+        this FAQ
+      </a>
+      {" "} for further troubleshooting.
     </p>
   );
 }
