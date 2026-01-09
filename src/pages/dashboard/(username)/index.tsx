@@ -35,9 +35,10 @@ function DashboardPage() {
       if (!progress.has(up.exercise_name)) {
         progress.set(up.exercise_name, up.status);
       } else if (
-        (progress.get(up.exercise_name) !== ExerciseStatus.COMPLETED &&
-          progress.get(up.exercise_name) !== ExerciseStatus.SUCCESSFUL) &&
-        (up.status === ExerciseStatus.SUCCESSFUL || up.status === ExerciseStatus.COMPLETED)
+        progress.get(up.exercise_name) !== ExerciseStatus.COMPLETED &&
+        progress.get(up.exercise_name) !== ExerciseStatus.SUCCESSFUL &&
+        (up.status === ExerciseStatus.SUCCESSFUL ||
+          up.status === ExerciseStatus.COMPLETED)
       ) {
         // Take any success
         progress.set(up.exercise_name, up.status);
@@ -47,7 +48,8 @@ function DashboardPage() {
     return progress;
   }, [userProgress, isUserProgressLoading]);
 
-  const { data: exercises, isLoading: isProblemSetsLoading } = useGetExercisesQuery();
+  const { data: exercises, isLoading: isProblemSetsLoading } =
+    useGetExercisesQuery();
 
   const queryClient = useQueryClient();
   const refreshUserProgress = useCallback(async () => {
@@ -55,18 +57,18 @@ function DashboardPage() {
   }, [queryClient, user?.login]);
 
   const isLoading = useMemo(() => {
-      return (
-        isUserLoading ||
-        isUserProgressLoading ||
-        isUserProgressFetching ||
-        isProblemSetsLoading
-      );
-    }, [
-      isUserLoading,
-      isUserProgressLoading,
-      isUserProgressFetching,
+    return (
+      isUserLoading ||
+      isUserProgressLoading ||
+      isUserProgressFetching ||
       isProblemSetsLoading
-    ]);
+    );
+  }, [
+    isUserLoading,
+    isUserProgressLoading,
+    isUserProgressFetching,
+    isProblemSetsLoading,
+  ]);
 
   // Dynamically render content based on data availability
   const renderContent = useCallback(() => {
@@ -80,20 +82,34 @@ function DashboardPage() {
 
     if (user == null) {
       return (
-        <StatusMessage buttonText="← Return to search" buttonHref="/" variant="error">
-          <p>User <strong>{username}</strong> does not exist</p>
+        <StatusMessage
+          buttonText="← Return to search"
+          buttonHref="/"
+          variant="error"
+        >
+          <p>
+            User <strong>{username}</strong> does not exist
+          </p>
         </StatusMessage>
       );
     }
 
     if (userProgress == null) {
       return (
-        <StatusMessage buttonText="← Return to search" buttonHref="/" variant="error">
-          <p className="mb-2">No progress repository found for <strong>{username}</strong>.</p>
+        <StatusMessage
+          buttonText="← Return to search"
+          buttonHref="/"
+          variant="error"
+        >
+          <p className="mb-2">
+            No progress repository found for <strong>{username}</strong>.
+          </p>
           <p>
             Ensure that you have enabled remote progress tracking using{" "}
-            <code className="bg-gray-100 px-2 py-1">gitmastery progress sync on</code> in the
-            Git-Mastery app.
+            <code className="bg-gray-100 px-2 py-1">
+              gitmastery progress sync on
+            </code>{" "}
+            in the Git-Mastery app.
           </p>
         </StatusMessage>
       );
@@ -113,10 +129,7 @@ function DashboardPage() {
     }
 
     return (
-      <ExerciseTable
-        exercises={exercises}
-        progress={parsedUserProgress}
-      />
+      <ExerciseTable exercises={exercises} progress={parsedUserProgress} />
     );
   }, [isLoading, user, userProgress, exercises, parsedUserProgress, username]);
 

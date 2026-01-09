@@ -1,3 +1,4 @@
+import { DASHBOARD_LINKS, DashboardLinkType } from "@/constants/dashboard";
 import { IoArrowBack } from "react-icons/io5";
 import { MdOutlineRefresh } from "react-icons/md";
 import { Link } from "react-router";
@@ -7,37 +8,33 @@ interface DashboardHeaderProps {
   onRefresh: () => void;
 }
 
-interface DashboardLinkProps {
-  label: string;
-  href: string;
-}
+function DashboardHeaderExternalLinks({
+  links,
+}: {
+  links: DashboardLinkType[];
+}) {
+  const linkClassName =
+    "text-blue-600 mb-2 flex flex-row gap-2 items-center text-sm underline";
 
-const DASHBOARD_LINKS: DashboardLinkProps[] = [
-  {
-    label: "Exercises directory",
-    href: "https://git-mastery.github.io/exercises-directory",
-  },
-  {
-    label: "Report a bug",
-    href: "https://github.com/git-mastery/git-mastery/issues",
-  }
-];
-
-function DashboardHeaderExternalLinks({ links }: { links: DashboardLinkProps[] }) {
-  const linkClassName = "text-blue-600 mb-2 flex flex-row gap-2 items-center text-sm underline";
-  
   return (
     <div className="flex flex-row justify-center gap-2 items-center">
       {links.map((link, index) => (
         <span key={link.label} className="flex flex-row gap-2 items-center">
-          <a href={link.href} target="_blank" rel="noopener noreferrer" className={linkClassName}>
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={linkClassName}
+          >
             {link.label}
           </a>
-          {index < links.length - 1 && <span className="text-gray-400 mb-2">|</span>}
+          {index < links.length - 1 && (
+            <span className="text-gray-400 mb-2">|</span>
+          )}
         </span>
       ))}
     </div>
-  )
+  );
 }
 
 function DashboardHeaderToolbar({ onRefresh }: { onRefresh: () => void }) {
@@ -45,7 +42,7 @@ function DashboardHeaderToolbar({ onRefresh }: { onRefresh: () => void }) {
     <div className="flex flex-row justify-between items-center mb-8 text-gray-500">
       <nav>
         <Link to="/" className="flex flex-row gap-2 items-center text-sm">
-          <IoArrowBack size={20}/>
+          <IoArrowBack size={20} />
           Back to change user
         </Link>
       </nav>
@@ -55,21 +52,46 @@ function DashboardHeaderToolbar({ onRefresh }: { onRefresh: () => void }) {
         aria-label="Refresh progress data"
         className="flex flex-row gap-2 items-center text-sm cursor-pointer"
       >
-        <MdOutlineRefresh size={20}/>
+        <MdOutlineRefresh size={20} />
         Refresh
       </button>
     </div>
-  )
+  );
+}
+
+function DashboardHeaderNote() {
+  return (
+    <p className="text-center text-gray-600 italic mb-4 text-sm">
+      Progress shown below  <span className="font-bold">may not be the most up-to-date</span>, as there is a slight delay in progress data propagating through GitHub. See {" "}
+      <a
+        href="https://git-mastery.org/faq/index.html#faq-why-is-the-dashboard-not-showing-my-latest-progress"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 underline"
+      >
+        this FAQ
+      </a>
+      {" "} for further troubleshooting.
+    </p>
+  );
 }
 
 function DashboardHeader({ username, onRefresh }: DashboardHeaderProps) {
   return (
     <header className="mb-6">
-      <DashboardHeaderToolbar onRefresh={onRefresh}/>
-      <h1 className="text-3xl font-bold mb-4 text-center">Git Mastery Progress Dashboard for <a href={`https://github.com/${username}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 gap-2 items-center hover:underline">
+      <DashboardHeaderToolbar onRefresh={onRefresh} />
+      <h1 className="text-3xl font-bold mb-4 text-center">
+        Git Mastery Progress Dashboard for{" "}
+        <a
+          href={`https://github.com/${username}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 gap-2 items-center hover:underline"
+        >
           @{username}
         </a>
       </h1>
+      <DashboardHeaderNote />
       <DashboardHeaderExternalLinks links={DASHBOARD_LINKS} />
     </header>
   );
