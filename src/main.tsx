@@ -6,7 +6,7 @@ import '@/styles/index.css'
 import App from '@/pages'
 import Dashboard from '@/pages/dashboard/(username)'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -18,5 +18,5 @@ createRoot(document.getElementById('root')!).render(
         </Routes>
       </HashRouter>
     </QueryClientProvider>
-  </StrictMode>,
-)
+  </StrictMode>
+);
