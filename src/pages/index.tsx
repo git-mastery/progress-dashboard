@@ -40,8 +40,8 @@ function HomePage() {
         <Button 
           variant="outline" 
           onClick={searchUser} 
-          disabled={isSearchDisabled} 
-          className="h-auto px-4 py-2 rounded-sm font-semibold hover:bg-gray-600 hover:text-white hover:border-gray-600 disabled:border-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
+          disabled={isSearchDisabled}
+          className="disabled:border-gray-200 disabled:text-gray-400"
         >
           View Progress →
         </Button>
