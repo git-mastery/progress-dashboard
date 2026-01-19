@@ -1,5 +1,13 @@
 import { BASE_URL, ExerciseStatus } from "@/constants";
 import { Exercise } from "@/types/exercise";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 interface ExerciseTableProps {
   exercises: Exercise[];
@@ -48,24 +56,24 @@ function ExerciseContextLabel({ exercise }: { exercise: Exercise }) {
 
 function ExerciseTable({ exercises, progress }: ExerciseTableProps) {
   return (
-    <table className="table-fixed w-full bg-white border border-gray-300 rounded-sm">
-      <thead>
-        <tr>
-          <th className="bg-emerald-700 text-white border border-emerald-800 px-4 py-2 text-left">
+    <Table className="table-fixed bg-white border border-gray-300 rounded-sm">
+      <TableHeader>
+        <TableRow className="hover:bg-transparent border-0">
+          <TableHead className="bg-emerald-700 text-white border border-emerald-800 px-4 py-2 text-left h-auto font-medium">
             Exercise
-          </th>
-          <th className="bg-emerald-700 text-white border border-emerald-800 px-4 py-2 text-left w-40">
+          </TableHead>
+          <TableHead className="bg-emerald-700 text-white border border-emerald-800 px-4 py-2 text-left w-40 h-auto font-medium">
             Status
-          </th>
-        </tr>
-      </thead>
-      <tbody>
+          </TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
         {exercises.map((exercise) => {
           const status = getStatusDisplay(progress.get(exercise.identifier));
           const lessonPath = exercise.detour?.lesson.path ?? exercise.parentLesson.path;
           return (
-            <tr key={exercise.key}>
-              <td className="border border-gray-300 px-4 py-2 text-left">
+            <TableRow key={exercise.key} className="hover:bg-transparent border-0">
+              <TableCell className="border border-gray-300 px-4 py-2 text-left">
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
@@ -74,16 +82,16 @@ function ExerciseTable({ exercises, progress }: ExerciseTableProps) {
                   <code className="underline text-blue-800">{exercise.identifier}</code>
                 </a>
                 <ExerciseContextLabel exercise={exercise} />
-              </td>
-              <td className="border border-gray-300 px-4 py-2 text-left">
+              </TableCell>
+              <TableCell className="border border-gray-300 px-4 py-2 text-left">
                 <span className="mr-2">{status.icon}</span>
                 {status.text}
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           );
         })}
-      </tbody>
-    </table>
+      </TableBody>
+    </Table>
   );
 }
 

@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { Button } from "@/components/ui/button";
 
 type ButtonVariant = "error" | "primary";
 
@@ -10,8 +11,8 @@ interface StatusMessageProps extends React.PropsWithChildren {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  error: "border-red-700 bg-red-700 text-white",
-  primary: "border-blue-800 bg-blue-800 text-white",
+  error: "bg-red-700 text-white border-red-700 hover:bg-red-800 hover:border-red-800",
+  primary: "bg-blue-800 text-white border-blue-800 hover:bg-blue-900 hover:border-blue-900",
 };
 
 const textStyles: Record<ButtonVariant, string> = {
@@ -26,25 +27,26 @@ function StatusMessage({
   variant = "error",
   external = false,
 }: StatusMessageProps) {
-  const buttonClasses = `hover:cursor-pointer border-1 ${variantStyles[variant]} rounded-sm px-4 py-2 font-semibold`;
-
   return (
     <div className="text-center">
       <div className={textStyles[variant]}>{children}</div>
       <div className="mt-4">
         {external ? (
-          <a 
-            href={buttonHref} 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className={buttonClasses}
-          >
-            {buttonText}
-          </a>
+          <Button asChild className={`rounded-sm font-semibold ${variantStyles[variant]}`}>
+            <a 
+              href={buttonHref} 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              {buttonText}
+            </a>
+          </Button>
         ) : (
-          <Link to={buttonHref} className={buttonClasses}>
-            {buttonText}
-          </Link>
+          <Button asChild className={`rounded-sm font-semibold ${variantStyles[variant]}`}>
+            <Link to={buttonHref}>
+              {buttonText}
+            </Link>
+          </Button>
         )}
       </div>
     </div>
