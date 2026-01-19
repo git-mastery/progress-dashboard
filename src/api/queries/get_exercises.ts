@@ -80,5 +80,8 @@ export const useGetExercisesQuery = () => {
   return useQuery<Exercise[]>({
     queryKey: ["get-exercises"],
     queryFn: () => getExercises(),
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 }
