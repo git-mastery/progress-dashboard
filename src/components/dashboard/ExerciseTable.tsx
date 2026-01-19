@@ -59,10 +59,10 @@ function ExerciseTable({ exercises, progress }: ExerciseTableProps) {
     <Table className="table-fixed bg-white border border-gray-300 rounded-sm">
       <TableHeader>
         <TableRow className="hover:bg-transparent border-0">
-          <TableHead className="bg-emerald-700 text-white border border-emerald-800 px-4 py-2 text-left h-auto font-medium">
+          <TableHead className="bg-emerald-700 text-white border border-emerald-800 px-4 py-2 text-left font-bold text-lg">
             Exercise
           </TableHead>
-          <TableHead className="bg-emerald-700 text-white border border-emerald-800 px-4 py-2 text-left w-40 h-auto font-medium">
+          <TableHead className="bg-emerald-700 text-white border border-emerald-800 px-4 py-2 text-left w-40 font-bold text-lg">
             Status
           </TableHead>
         </TableRow>
@@ -72,8 +72,8 @@ function ExerciseTable({ exercises, progress }: ExerciseTableProps) {
           const status = getStatusDisplay(progress.get(exercise.identifier));
           const lessonPath = exercise.detour?.lesson.path ?? exercise.parentLesson.path;
           return (
-            <TableRow key={exercise.key} className="hover:bg-transparent border-0">
-              <TableCell className="border border-gray-300 px-4 py-2 text-left">
+            <TableRow key={exercise.key}>
+              <TableCell className="px-4 py-2">
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
