@@ -85,7 +85,7 @@ function DashboardPage() {
         <StatusMessage
           buttonText="← Return to search"
           buttonHref="/"
-          variant="error"
+          variant="destructive"
         >
           <p>
             User <strong>{username}</strong> does not exist
@@ -99,7 +99,7 @@ function DashboardPage() {
         <StatusMessage
           buttonText="← Return to search"
           buttonHref="/"
-          variant="error"
+          variant="destructive"
         >
           <p className="mb-2">
             No progress repository found for <strong>{username}</strong>.
@@ -120,7 +120,7 @@ function DashboardPage() {
         <StatusMessage
           buttonText="Go to exercises directory ↗"
           buttonHref={EXERCISES_DIRECTORY_URL}
-          variant="primary"
+          variant="default"
           external
         >
           <p>No exercises available</p>

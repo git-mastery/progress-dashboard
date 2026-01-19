@@ -73,7 +73,7 @@ function ExerciseTable({ exercises, progress }: ExerciseTableProps) {
           const lessonPath = exercise.detour?.lesson.path ?? exercise.parentLesson.path;
           return (
             <TableRow key={exercise.key}>
-              <TableCell className="px-4 py-2">
+              <TableCell className="border border-gray-300 px-4 py-2">
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
