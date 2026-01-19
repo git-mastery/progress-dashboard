@@ -41,7 +41,7 @@ function HomePage() {
           variant="outline" 
           onClick={searchUser} 
           disabled={isSearchDisabled}
-          className="disabled:border-gray-200 disabled:text-gray-400"
+          className="disabled:border-gray-200 disabled:text-gray-400 hover:disabled:bg-transparent"
         >
           View Progress →
         </Button>

@@ -42,7 +42,7 @@ function DashboardHeaderToolbar({ onRefresh }: { onRefresh: () => void }) {
   return (
     <div className="flex flex-row justify-between items-center mb-8 text-gray-500">
       <nav>
-        <Button variant="ghost" asChild>
+        <Button variant="ghost" asChild className="hover:bg-transparent">
           <Link to="/" className="flex flex-row gap-2 items-center text-sm">
             <IoArrowBack size={20} />
             Back to change user
@@ -53,6 +53,7 @@ function DashboardHeaderToolbar({ onRefresh }: { onRefresh: () => void }) {
         variant="ghost"
         onClick={onRefresh}
         aria-label="Refresh progress data"
+        className="hover:bg-transparent"
       >
         <MdOutlineRefresh size={20} />
         Refresh
