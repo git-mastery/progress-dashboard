@@ -82,6 +82,5 @@ export const useGetExercisesQuery = () => {
     queryFn: () => getExercises(),
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
-    refetchOnMount: false,
   });
 }

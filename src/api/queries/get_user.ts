@@ -22,7 +22,6 @@ export const useGetUserQuery = (username: string | undefined) => {
     enabled: username != null,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
-    refetchOnMount: false,
   })
 }
 
