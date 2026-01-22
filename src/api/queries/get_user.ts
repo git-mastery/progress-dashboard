@@ -20,6 +20,8 @@ export const useGetUserQuery = (username: string | undefined) => {
     queryKey: ["get-user", username],
     queryFn: () => getUser(username!),
     enabled: username != null,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   })
 }
 

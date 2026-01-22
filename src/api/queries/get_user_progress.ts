@@ -21,6 +21,8 @@ export const useGetUserProgressQuery = (username: string | undefined) => {
     queryKey: ["get-user-progress", username],
     queryFn: () => getUserProgress(username!),
     enabled: username != null,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 }
 
