@@ -2,6 +2,7 @@ import { DASHBOARD_LINKS, DashboardLinkType } from "@/constants/dashboard";
 import { IoArrowBack } from "react-icons/io5";
 import { MdOutlineRefresh } from "react-icons/md";
 import { Link } from "react-router";
+import { Button } from "@/components/ui/button";
 
 interface DashboardHeaderProps {
   username: string;
@@ -41,20 +42,22 @@ function DashboardHeaderToolbar({ onRefresh }: { onRefresh: () => void }) {
   return (
     <div className="flex flex-row justify-between items-center mb-8 text-gray-500">
       <nav>
-        <Link to="/" className="flex flex-row gap-2 items-center text-sm">
-          <IoArrowBack size={20} />
-          Back to change user
-        </Link>
+        <Button variant="ghost" asChild className="hover:bg-transparent">
+          <Link to="/" className="flex flex-row gap-2 items-center text-sm">
+            <IoArrowBack size={20} />
+            Back to change user
+          </Link>
+        </Button>
       </nav>
-      <button
-        type="button"
+      <Button
+        variant="ghost"
         onClick={onRefresh}
         aria-label="Refresh progress data"
-        className="flex flex-row gap-2 items-center text-sm cursor-pointer"
+        className="hover:bg-transparent"
       >
         <MdOutlineRefresh size={20} />
         Refresh
-      </button>
+      </Button>
     </div>
   );
 }
