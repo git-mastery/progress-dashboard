@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { Button } from '@/components/ui/button';
 
 function HomePage() {
   const navigate = useNavigate()
@@ -29,14 +30,21 @@ function HomePage() {
         <h1 className="text-4xl font-bold mb-4">Git Mastery Progress Dashboard</h1>
         <p className="text-gray-700 font-semibold">Enter your Github username to find your progress!</p>
       </div>
-      <div className="flex flex-row border w-full rounded-sm">
+      <div className="flex flex-row border border-gray-700 w-full rounded-sm">
         <div className="flex items-center justify-center p-4 border-r border-r-gray-700">
           <span className="font-bold">@</span>
         </div>
         <input onChange={usernameInput} onKeyDown={handleEnterKeyDown} autoFocus className="font-semibold w-full px-4 focus:outline-none" placeholder="Your Github username" type="text" />
       </div>
       <div className="text-center mt-4">
-        <button type="button" onClick={searchUser} disabled={isSearchDisabled} className="enabled:hover:cursor-pointer enabled:hover:bg-gray-600 enabled:hover:text-white transition border-1 rounded-sm px-4 py-2 font-semibold disabled:border-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed">View Progress →</button>
+        <Button 
+          variant="outline" 
+          onClick={searchUser} 
+          disabled={isSearchDisabled}
+          className="disabled:border-gray-200 disabled:text-gray-400 disabled:bg-transparent"
+        >
+          View Progress →
+        </Button>
       </div>
     </div>
   )
