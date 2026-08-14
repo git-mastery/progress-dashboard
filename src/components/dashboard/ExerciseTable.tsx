@@ -33,10 +33,10 @@ function getStatusDisplay(status: string | undefined): { text: string; icon: str
 
 function ExerciseContextLabel({ exercise }: { exercise: Exercise }) {
   const linkClass = "text-blue-600 hover:underline";
-  const lessonLink = `${BASE_URL}/${exercise.parentLesson.path}`;
+  const lessonLink = `${BASE_URL}/lessons/${exercise.parentLesson.lesson_name}`;
 
   if (exercise.detour) {
-    const detourLink = `${BASE_URL}/${exercise.detour.lesson.path}`;
+    const detourLink = `${BASE_URL}/lessons/${exercise.detour.lesson.lesson_name}`;
     return (
       <span className="text-gray-500 text-sm ml-2">
         (in <a href={detourLink} target="_blank" rel="noopener noreferrer" className={linkClass}>
@@ -70,14 +70,14 @@ function ExerciseTable({ exercises, progress }: ExerciseTableProps) {
       <TableBody>
         {exercises.map((exercise) => {
           const status = getStatusDisplay(progress.get(exercise.identifier));
-          const lessonPath = exercise.detour?.lesson.path ?? exercise.parentLesson.path;
+          const lessonName = exercise.detour?.lesson.lesson_name ?? exercise.parentLesson.lesson_name;
           return (
             <TableRow key={exercise.key}>
               <TableCell className="border border-gray-300 px-4 py-2">
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  href={`${BASE_URL}/${lessonPath}/exercise-${exercise.identifier}`}
+                  href={`${BASE_URL}/lessons/${lessonName}/exercise-${exercise.identifier}`}
                 >
                   <code className="underline text-blue-800">{exercise.identifier}</code>
                 </a>

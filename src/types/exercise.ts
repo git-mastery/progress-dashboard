@@ -1,5 +1,5 @@
 export interface LessonInfo {
-  path: string;
+  lesson_name: string;
   title: string;
 }
 
